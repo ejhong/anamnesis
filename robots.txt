@@ -1,2 +1,3 @@
+# Link previews may read this page; it asks search engines not to index it (meta robots noindex).
 User-agent: *
-Disallow: /
+Allow: /
