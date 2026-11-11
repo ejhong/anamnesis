@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Anamnesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:wght@400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--night:#070A16;--gold:#D8B46A;--gold-hi:#F1DDA6;--bone:#F3ECDD;--dim:#A9A394;--ash:#7d786b}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:radial-gradient(80% 60% at 50% 38%,#101935 0%,var(--night) 70%);color:var(--bone);font-family:'Cormorant Garamond',Georgia,serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+canvas{position:fixed;inset:0;width:100%;height:100%}
+main{position:relative;z-index:2;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 22px 90px}
+.greek{font-family:'EB Garamond',Georgia,serif;font-size:clamp(22px,3vw,30px);letter-spacing:.14em;color:var(--gold);opacity:0;animation:in 2.4s ease .3s forwards}
+.rule{width:56px;height:1px;background:var(--gold);opacity:0;margin:26px 0 30px;animation:in 2s ease 1s forwards}
+.verse{font-style:italic;font-weight:300;font-size:clamp(20px,2.4vw,27px);line-height:1.5;color:var(--dim);max-width:30rem;opacity:0;animation:in 2.4s ease forwards}
+.verse+.verse{margin-top:1.1em}
+.v1{animation-delay:1.6s}.v2{animation-delay:2.8s}
+.say{font-size:clamp(26px,3vw,36px);margin:2.2rem 0 1.4rem;color:var(--gold-hi);opacity:0;animation:in 2s ease 4s forwards}
+form{opacity:0;animation:in 2s ease 4.6s forwards;display:flex;flex-direction:column;align-items:center}
+input{width:min(20rem,80vw);background:none;border:0;border-bottom:1px solid rgba(216,180,106,.6);color:var(--gold-hi);font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;letter-spacing:.24em;text-align:center;padding:8px 0 10px;outline:none;caret-color:var(--gold-hi);border-radius:0}
+input::placeholder{color:rgba(216,180,106,.35);letter-spacing:.5em}
+input:focus{border-bottom-color:var(--gold-hi)}
+input::selection{background:rgba(216,180,106,.3);color:var(--gold-hi)}
+button{margin-top:1.4rem;background:none;border:1px solid rgba(216,180,106,.45);color:var(--gold-hi);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;padding:11px 26px;border-radius:30px;cursor:pointer}
+button:hover{background:rgba(216,180,106,.1)}
+.msg{min-height:1.6em;margin-top:1.2rem;font-style:italic;font-size:20px;color:var(--dim);transition:opacity .6s}
+.src{position:fixed;left:0;right:0;bottom:22px;z-index:2;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--ash)}
+.shake{animation:shake .5s}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes in{to{opacity:1}}
+.flash{position:fixed;inset:0;z-index:5;pointer-events:none;background:radial-gradient(60% 60% at 50% 50%,#FFF6DD,#F1DDA6 45%,#D8B46A);opacity:0;transition:opacity 1.6s ease}
+.flash.on{opacity:1}
+body.opening main{transition:opacity 1s;opacity:0}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;opacity:1!important}}
+</style>
+</head>
+<body>
+<canvas aria-hidden="true"></canvas>
+<main>
+  <p class="greek">ἀνάμνησις</p>
+  <div class="rule"></div>
+  <p class="verse v1">To the left you will find a spring,<br>and beside it a white cypress.<br>Do not go near it.</p>
+  <p class="verse v2">Further on is the Lake of Memory.<br>Its guardians will ask you who you are.</p>
+  <p class="say">Say the word.</p>
+  <form autocomplete="off">
+    <input type="password" name="w" aria-label="The word" placeholder="· · ·" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go">
+    <button type="submit">Drink</button>
+    <p class="msg" aria-live="polite"></p>
+  </form>
+</main>
+<p class="src">after the Orphic gold tablet of Petelia · 4th century BCE</p>
+<div class="flash"></div>
+<script>
+var SEAL={"salt":"c5ac4606ee37e9f590ff390358cb5ae4","iter":400000,"wraps":["n1MBgJ21OI1h77kKZbzI8PIY9c/q87qptGnKrE1mgsnnB0VerKT2KPKfthUJ39NW5JA53+0JfD/Oud05","Q2acBXO0BTOzcEATFG+hCO5nt3RL2HsVup0JsX7nvsRzVqx192f5yGff6BPFBBngVTbvyEmj/We4eI+E","fDclh4w/RdcIE4gOWHKhCLrHJIF8GBVOa/a5Sw5fu4MWx6+r7OVC5djbTtdJV3eD7k9PjOfXsz4KOygO","huJbnSCt5drB2wmV8SRAieL8rbkNlP/rvlaWMSGVOAj7yHAuXtmBCzvjJpVfae1o+He/Ofl+GMpLws18"]};
+(function(){
+  var cv=document.querySelector('canvas'),cx=cv.getContext('2d'),W,H,k,stars=[],raf;
+  function size(){k=Math.min(2,devicePixelRatio||1);W=cv.width=innerWidth*k;H=cv.height=innerHeight*k}
+  size();addEventListener('resize',size);
+  for(var i=0;i<140;i++)stars.push({x:Math.random(),y:Math.random(),r:.3+Math.random()*1.1,p:Math.random()*6.3,v:.2+Math.random()*1.1});
+  function frame(t){cx.clearRect(0,0,W,H);for(var i=0;i<stars.length;i++){var s=stars[i],q=(Math.sin(s.p+t/1000*s.v)+1)/2;cx.globalAlpha=.04+.6*q*q*q;cx.fillStyle='#F6EEDB';cx.beginPath();cx.arc(s.x*W,s.y*H,s.r*k,0,6.2832);cx.fill()}raf=requestAnimationFrame(frame)}
+  raf=requestAnimationFrame(frame);
+
+  var form=document.querySelector('form'),input=form.querySelector('input'),msg=form.querySelector('.msg'),tries=0,busy=false;
+  function u8(b64){var s=atob(b64),u=new Uint8Array(s.length);for(var i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
+  function hex(h){var u=new Uint8Array(h.length/2);for(var i=0;i<u.length;i++)u[i]=parseInt(h.substr(i*2,2),16);return u}
+  function b64(u){var s='';for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s)}
+  function norm(w){return w.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,'').replace(/ς/g,'σ')}
+  function kek(word){
+    return crypto.subtle.importKey('raw',new TextEncoder().encode(norm(word)),'PBKDF2',false,['deriveKey']).then(function(base){
+      return crypto.subtle.deriveKey({name:'PBKDF2',salt:hex(SEAL.salt),iterations:SEAL.iter,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+    });
+  }
+  function unwrap(key){
+    var i=0;
+    function next(){
+      if(i>=SEAL.wraps.length)return Promise.resolve(null);
+      var w=u8(SEAL.wraps[i++]);
+      return crypto.subtle.decrypt({name:'AES-GCM',iv:w.slice(0,12)},key,w.slice(12)).then(function(raw){return new Uint8Array(raw)},next);
+    }
+    return next();
+  }
+  function open(raw,flash){
+    return crypto.subtle.importKey('raw',raw,'AES-GCM',false,['decrypt']).then(function(key){
+      return fetch('p.bin',{cache:'no-cache'}).then(function(r){return r.arrayBuffer()}).then(function(buf){
+        return crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(buf,0,12)},key,new Uint8Array(buf,12));
+      });
+    }).then(function(plain){
+      var html=new TextDecoder().decode(plain).replace('<head>','<head><script>window.__SEAL={k:"'+b64(raw)+'"}<\/script>');
+      try{localStorage.setItem('anamnesis.k',b64(raw))}catch(e){}
+      function write(){cancelAnimationFrame(raf);document.open();document.write(html);document.close()}
+      if(flash){document.body.classList.add('opening');document.querySelector('.flash').classList.add('on');setTimeout(write,1700)}else write();
+    });
+  }
+  var saved=null;try{saved=localStorage.getItem('anamnesis.k')}catch(e){}
+  if(saved){open(u8(saved),false).catch(function(){try{localStorage.removeItem('anamnesis.k')}catch(e){}})}
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();if(busy||!input.value.trim())return;busy=true;msg.textContent='The guardians are listening…';
+    kek(input.value).then(unwrap).then(function(raw){
+      if(!raw){
+        tries++;busy=false;input.classList.remove('shake');void input.offsetWidth;input.classList.add('shake');
+        msg.textContent=tries>=2?'They are waiting for the word that undoes forgetting.':'The guardians do not know that word.';
+        input.select();return;
+      }
+      msg.textContent='Drink.';input.blur();return open(raw,true);
+    }).catch(function(){busy=false;msg.textContent='Something went wrong. Try again.'});
+  });
+  if(!saved)setTimeout(function(){input.focus({preventScroll:true})},4800);
+})();
+</script>
+</body>
+</html>
